@@ -1,4 +1,4 @@
-package com.example.soffisushi.ui.theme
+package com.example.soffisushi.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
