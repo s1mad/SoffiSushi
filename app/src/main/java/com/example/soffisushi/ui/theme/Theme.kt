@@ -1,4 +1,4 @@
-package com.example.soffisushi.presentation.ui.theme
+package com.example.soffisushi.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
