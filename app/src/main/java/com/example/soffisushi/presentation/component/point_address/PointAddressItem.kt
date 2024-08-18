@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.soffisushi.R
 import com.example.soffisushi.presentation.viewmodel.SoffiSushiViewModel
@@ -31,7 +32,7 @@ fun PointAddressItem(viewModel: SoffiSushiViewModel, onClick: () -> Unit) {
             }
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
             imageVector = Icons.Rounded.LocationOn,
@@ -41,7 +42,9 @@ fun PointAddressItem(viewModel: SoffiSushiViewModel, onClick: () -> Unit) {
             text = if (viewModel.selectedPoint.value is Status.Success) (viewModel.selectedPoint.value as Status.Success).data.address else stringResource(
                 R.string.loading
             ),
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(text = stringResource(R.string.change))
     }

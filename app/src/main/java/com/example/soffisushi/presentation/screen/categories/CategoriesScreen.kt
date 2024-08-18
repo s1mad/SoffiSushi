@@ -82,7 +82,8 @@ fun CategoriesScreen(
         }
 
         is Status.Success -> {
-            val categories = (resultCategories.value as Status.Success).data
+            val categories =
+                (resultCategories.value as Status.Success).data.sortedBy { it.sortNumber }
 
             if (categories.isNotEmpty()) {
                 val filteredCategory = categories.filter { it.parentId == selectedCategoryId }
@@ -101,7 +102,7 @@ fun CategoriesScreen(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        columns = GridCells.Adaptive(96.dp)
+                        columns = GridCells.Adaptive(144.dp)
                     ) {
                         items(filteredCategory) { category ->
                             CategoryItem(

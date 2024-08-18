@@ -64,7 +64,7 @@ fun CountPersItem(viewModel: SoffiSushiViewModel) {
             Icon(
                 imageVector = Icons.Rounded.Remove,
                 contentDescription = "Reduce products",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = if (viewModel.additionalInfo.value.sticks > 1) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.surface
             )
         }
         Box(
@@ -100,7 +100,7 @@ fun CountPersItem(viewModel: SoffiSushiViewModel) {
             Icon(
                 imageVector = Icons.Rounded.Add,
                 contentDescription = "Add products",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = if (viewModel.additionalInfo.value.sticks < 10) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.surface
             )
         }
     }

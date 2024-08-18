@@ -115,14 +115,14 @@ fun CartItem(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(MaterialTheme.colorScheme.errorContainer)
+                        .background(MaterialTheme.colorScheme.primary)
                         .clickable { viewModel.removeCartProducts(product) },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Delete,
                         contentDescription = "Remove product from cart",
-                        tint = MaterialTheme.colorScheme.onErrorContainer
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
                 Box(
@@ -143,7 +143,7 @@ fun CartItem(
                     Icon(
                         imageVector = Icons.Rounded.Remove,
                         contentDescription = "Reduce products",
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        tint = if (count > 1) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.surface
                     )
                 }
                 Box(

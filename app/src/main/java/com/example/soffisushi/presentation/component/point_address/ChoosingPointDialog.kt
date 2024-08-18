@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.soffisushi.R
@@ -105,19 +105,22 @@ fun ChoosingPointDialog(
                                     hideDialog()
                                 }
                                 .padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
+                                modifier = Modifier.weight(1f),
                                 text = point.address,
-                                textAlign = TextAlign.Center
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                             if (viewModel.pointDocumentId is Status.Success &&
                                 point.documentId == (viewModel.pointDocumentId as Status.Success).data
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.LocationOn,
-                                    contentDescription = "Location"
+                                    contentDescription = "Location",
+//                                    modifier = Modifier.size(32.dp)
                                 )
                             }
                         }

@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            SoffiSushiTheme(darkTheme = true) {
+            SoffiSushiTheme {
                 val navController = rememberNavController()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),

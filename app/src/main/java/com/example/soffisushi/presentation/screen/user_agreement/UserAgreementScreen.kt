@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.soffisushi.R
-import com.example.soffisushi.data.remote.firebase.model.PrivacyPolicy
+import com.example.soffisushi.data.remote.firebase.model.UserAgreement
 import com.example.soffisushi.presentation.component.CircularProgressBox
 import com.example.soffisushi.presentation.component.button.WrapContentButton
 import com.example.soffisushi.util.Status
@@ -32,29 +32,29 @@ import org.koin.compose.koinInject
 fun UserAgreementScreen(
     modifier: Modifier
 ) {
-    val resultPrivacyPolicy = remember { mutableStateOf<Status<PrivacyPolicy>>(Status.Pending) }
+    val resultUserAgreement = remember { mutableStateOf<Status<UserAgreement>>(Status.Pending) }
     val firestore: FirebaseFirestore = koinInject()
 
     val context = LocalContext.current
 
-    when (resultPrivacyPolicy.value) {
+    when (resultUserAgreement.value) {
         is Status.Pending -> {
-            resultPrivacyPolicy.value = Status.Loading
+            resultUserAgreement.value = Status.Loading
             firestore
                 .collection("general")
-                .document("privacyPolicy")
+                .document("UserAgreement")
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val tempPrivacyPolice = task.result.toObject(PrivacyPolicy::class.java)
+                        val tempPrivacyPolice = task.result.toObject(UserAgreement::class.java)
                         if (tempPrivacyPolice != null) {
-                            resultPrivacyPolicy.value = Status.Success(tempPrivacyPolice)
+                            resultUserAgreement.value = Status.Success(tempPrivacyPolice)
                         } else {
-                            resultPrivacyPolicy.value =
+                            resultUserAgreement.value =
                                 Status.Error(Exception(context.getString(R.string.empty_data_returned)))
                         }
                     } else {
-                        resultPrivacyPolicy.value =
+                        resultUserAgreement.value =
                             Status.Error(Exception(context.getString(R.string.data_acquisition_error)))
                     }
                 }
@@ -65,7 +65,7 @@ fun UserAgreementScreen(
         }
 
         is Status.Error -> {
-            val exception = (resultPrivacyPolicy.value as Status.Error).exception
+            val exception = (resultUserAgreement.value as Status.Error).exception
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -84,14 +84,14 @@ fun UserAgreementScreen(
                 WrapContentButton(
                     text = stringResource(R.string.try_again),
                     onClick = {
-                        resultPrivacyPolicy.value = Status.Pending
+                        resultUserAgreement.value = Status.Pending
                     }
                 )
             }
         }
 
         is Status.Success -> {
-            val privacyPolicy = (resultPrivacyPolicy.value as Status.Success).data
+            val privacyPolicy = (resultUserAgreement.value as Status.Success).data
             Box(
                 modifier = modifier
                     .fillMaxSize()

@@ -36,7 +36,7 @@ fun WorkTimeItem() {
         Icon(
             modifier = Modifier.size(52.dp),
             imageVector = Icons.Rounded.ErrorOutline,
-            tint = MaterialTheme.colorScheme.error,
+            tint = MaterialTheme.colorScheme.primary,
             contentDescription = "Error"
         )
         Text(
