@@ -134,8 +134,10 @@ fun CartScreen(
             item {
                 Text(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .clip(MaterialTheme.shapes.medium)
-                        .clickable { navController.navigate(Screen.UserAgreement.route) },
+                        .clickable { navController.navigate(Screen.UserAgreement.route) }
+                        .padding(horizontal = 8.dp),
                     text = stringResource(R.string.press_you_agree_with_term_use),
                     textAlign = TextAlign.Center,
                     fontSize = 14.sp
