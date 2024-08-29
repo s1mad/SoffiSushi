@@ -721,6 +721,7 @@ class SoffiSushiViewModel(
         loadPointDocumentId(onComplete = {
             setPointListener(onComplete = {
                 setProductsListener()
+                getCategories()
                 pointOpenChecker()
             })
         })

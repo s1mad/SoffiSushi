@@ -29,7 +29,6 @@ import com.example.soffisushi.R
 import com.example.soffisushi.data.remote.firebase.model.Delivery
 import com.example.soffisushi.util.Status
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityExposedDropdownMenuBox(

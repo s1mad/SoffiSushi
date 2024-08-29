@@ -133,6 +133,20 @@ fun ProductsScreen(
                         )
                     }
                 } else {
+                    val sortedProducts = if (viewModel.categories.value is Status.Success) {
+                        filteredProducts
+                            .sortedWith(compareBy {
+                                (viewModel.categories.value as Status.Success).data.associateBy { category -> category.id }[it.categoryId]?.sortNumber
+                                    ?: Int.MAX_VALUE
+                            })
+                            .sortedByDescending { it.hot }
+                            .sortedByDescending { it.new }
+                    } else {
+                        filteredProducts
+                            .sortedByDescending { it.hot }
+                            .sortedByDescending { it.new }
+                    }
+
                     LazyVerticalGrid(
                         modifier = modifier,
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -155,7 +169,7 @@ fun ProductsScreen(
                                 TapOnProductItemGuide()
                             }
                         }
-                        items(filteredProducts) { product ->
+                        items(sortedProducts) { product ->
                             ProductItem(
                                 viewModel = viewModel,
                                 product = product,

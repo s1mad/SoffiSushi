@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WrapContentButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String,
 ) {
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         Button(
-            modifier = Modifier
+            modifier = modifier
                 .height(48.dp),
             shape = MaterialTheme.shapes.medium,
             onClick = { onClick() },

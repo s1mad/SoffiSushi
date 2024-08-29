@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 fun FillMaxWidthButton(
     onClick: () -> Unit,
     textEnabled: String,
-    textDisabled: String,
+    textDisabled: String? = null,
     enabled: Boolean = true,
     loading: Boolean = false
 ) {
@@ -37,13 +37,13 @@ fun FillMaxWidthButton(
         ) {
             if (!loading) {
                 Text(
-                    text = if (enabled) textEnabled else textDisabled,
+                    text = if (enabled) textEnabled else textDisabled.toString(),
                     textAlign = TextAlign.Center,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             } else {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }

@@ -21,17 +21,24 @@ android {
         }
     }
 
-    buildTypes {
-        debug {
-            resValue("string", "app_name", "SoffiSushi")
+    flavorDimensions += "version"
+    productFlavors {
+        create("users") {
+            dimension = "version"
         }
+        create("admin") {
+            dimension = "version"
+        }
+    }
+
+    buildTypes {
         release {
-            isMinifyEnabled = true
+            isDebuggable = false
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            resValue("string", "app_name", "SoffiSushi")
         }
     }
     compileOptions {
@@ -53,7 +60,6 @@ android {
             excludes += "META-INF/NOTICE.md"
             excludes += "META-INF/LICENSE.md"
         }
-
     }
 }
 

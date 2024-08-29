@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.example.soffisushi.R
@@ -77,7 +78,7 @@ fun ProductItem(product: Product, onClick: () -> Unit, viewModel: SoffiSushiView
             )
 
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = product.name)
+            Text(text = product.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(text = "${if (product.singleProduct) "" else stringResource(R.string.from)}${product.price.min()} ₽")
 
             Spacer(modifier = Modifier.height(4.dp))
