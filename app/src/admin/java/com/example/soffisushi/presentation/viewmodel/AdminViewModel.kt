@@ -148,6 +148,10 @@ class AdminViewModel(
         onSuccess: () -> Unit,
         onFailure: (exception: Exception) -> Unit
     ) {
+        if (_selectedPointId.value == null) {
+            onFailure(Exception("createProduct(): selectedPointId = null"))
+            return
+        }
         firestore.collection("points")
             .document(_selectedPointId.value!!)
             .collection("products")
@@ -182,14 +186,13 @@ class AdminViewModel(
         onSuccess: () -> Unit,
         onFailure: (exception: Exception) -> Unit
     ) {
-        val pointId = _selectedPointId.value
-        if (pointId == null) {
+        if (_selectedPointId.value == null) {
             onFailure(Exception("updateCategoryInProducts(): selectedPointId is null"))
             return
         }
 
         firestore.collection("points")
-            .document(pointId)
+            .document(_selectedPointId.value!!)
             .collection("products")
             .whereEqualTo("categoryId", oldCategoryId)
             .get()
@@ -261,6 +264,10 @@ class AdminViewModel(
         onSuccess: () -> Unit,
         onFailure: (exception: Exception) -> Unit
     ) {
+        if (_selectedPointId.value == null) {
+            onFailure(Exception("createCategory(): selectedPointId = null"))
+            return
+        }
         firestore.collection("points")
             .document(_selectedPointId.value!!)
             .collection("categories")
@@ -335,6 +342,10 @@ class AdminViewModel(
         onSuccess: () -> Unit,
         onFailure: (exception: Exception) -> Unit
     ) {
+        if (_selectedPointId.value == null) {
+            onFailure(Exception("createStock(): selectedPointId = null"))
+            return
+        }
         firestore.collection("points")
             .document(_selectedPointId.value!!)
             .collection("stocks")
@@ -409,6 +420,10 @@ class AdminViewModel(
         onSuccess: () -> Unit,
         onFailure: (exception: Exception) -> Unit
     ) {
+        if (_selectedPointId.value == null) {
+            onFailure(Exception("createDelivery(): selectedPointId = null"))
+            return
+        }
         firestore.collection("points")
             .document(_selectedPointId.value!!)
             .collection("delivery")

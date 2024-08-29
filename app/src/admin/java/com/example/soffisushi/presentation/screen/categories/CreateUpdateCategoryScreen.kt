@@ -144,6 +144,35 @@ fun CreateUpdateCategoryScreen(
                     Toast.makeText(context, "Поля заполнены некоректно", Toast.LENGTH_LONG).show()
                 } else {
                     isLoading.value = true
+
+                    fun handleSuccess() {
+                        isLoading.value = false
+                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+                        navigateUp()
+                    }
+
+                    fun handleFailure(message: String) {
+                        isLoading.value = false
+                        Toast.makeText(context, "Не успешно: $message", Toast.LENGTH_LONG).show()
+                    }
+
+                    fun updateCategoryInProductsIfNeeded(category: Category?, newCategoryId: Long) {
+                        if (category == null || category.id == newCategoryId) {
+                            handleSuccess()
+                        } else {
+                            viewModel.updateCategoryInProducts(
+                                oldCategoryId = category.id,
+                                newCategoryId = newCategoryId,
+                                onSuccess = { handleSuccess() },
+                                onFailure = { exception ->
+                                    handleFailure(
+                                        exception.message ?: "Unknown error"
+                                    )
+                                }
+                            )
+                        }
+                    }
+
                     viewModel.createCategory(
                         id = name.value,
                         category = Category(
@@ -155,63 +184,15 @@ fun CreateUpdateCategoryScreen(
                         ),
                         onSuccess = {
                             if (viewModel.selectedCategoryId.value == name.value) {
-                                if (category == null || category.id == id.value.toLong()) {
-                                    isLoading.value = false
-                                    Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                    navigateUp()
-                                } else {
-                                    viewModel.updateCategoryInProducts(
-                                        oldCategoryId = category.id,
-                                        newCategoryId = id.value.toLong(),
-                                        onSuccess = {
-                                            isLoading.value = false
-                                            Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT)
-                                                .show()
-                                            navigateUp()
-                                        },
-                                        onFailure = { exception ->
-                                            isLoading.value = false
-                                            Toast.makeText(
-                                                context,
-                                                "Не успешно: ${exception.message}",
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        }
-                                    )
-                                }
+                                updateCategoryInProductsIfNeeded(category, id.value.toLong())
                             } else {
                                 viewModel.deleteCategory(
                                     id = viewModel.selectedCategoryId.value.toString(),
                                     onSuccess = {
-                                        if (category == null || category.id == id.value.toLong()) {
-                                            isLoading.value = false
-                                            Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT)
-                                                .show()
-                                            navigateUp()
-                                        } else {
-                                            viewModel.updateCategoryInProducts(
-                                                oldCategoryId = category.id,
-                                                newCategoryId = id.value.toLong(),
-                                                onSuccess = {
-                                                    isLoading.value = false
-                                                    Toast.makeText(
-                                                        context,
-                                                        "Успешно",
-                                                        Toast.LENGTH_SHORT
-                                                    )
-                                                        .show()
-                                                    navigateUp()
-                                                },
-                                                onFailure = { exception ->
-                                                    isLoading.value = false
-                                                    Toast.makeText(
-                                                        context,
-                                                        "Не успешно: ${exception.message}",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
-                                            )
-                                        }
+                                        updateCategoryInProductsIfNeeded(
+                                            category,
+                                            id.value.toLong()
+                                        )
                                     },
                                     onFailure = {
                                         isLoading.value = false
@@ -226,12 +207,7 @@ fun CreateUpdateCategoryScreen(
                             }
                         },
                         onFailure = { exception ->
-                            isLoading.value = false
-                            Toast.makeText(
-                                context,
-                                "Не успешно: ${exception.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            handleFailure(exception.message.toString())
                         }
                     )
                 }

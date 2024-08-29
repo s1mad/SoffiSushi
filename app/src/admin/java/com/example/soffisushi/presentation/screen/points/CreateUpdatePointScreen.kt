@@ -199,6 +199,17 @@ fun CreateUpdatePointScreen(
                 ) {
                     Toast.makeText(context, "Поля заполнены некоректно", Toast.LENGTH_LONG).show()
                 } else {
+                    fun handleSuccess() {
+                        isLoading.value = false
+                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+                        navigateUp()
+                    }
+
+                    fun handleFailure(message: String) {
+                        isLoading.value = false
+                        Toast.makeText(context, "Не успешно: $message", Toast.LENGTH_LONG).show()
+                    }
+
                     if (point == null) {
                         isLoading.value = true
                         viewModel.createPoint(
@@ -216,19 +227,8 @@ fun CreateUpdatePointScreen(
                                 phoneNumber = phoneNumber.value,
                                 vkUrl = vkUrl.value
                             ),
-                            onSuccess = {
-                                isLoading.value = false
-                                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                navigateUp()
-                            },
-                            onFailure = { exception ->
-                                isLoading.value = false
-                                Toast.makeText(
-                                    context,
-                                    "Не успешно: ${exception.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            onSuccess = { handleSuccess() },
+                            onFailure = { exception -> handleFailure(exception.message.toString()) }
                         )
                     } else {
                         isLoading.value = true
@@ -247,19 +247,8 @@ fun CreateUpdatePointScreen(
                                 phoneNumber = phoneNumber.value,
                                 vkUrl = vkUrl.value
                             ),
-                            onSuccess = {
-                                isLoading.value = false
-                                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                navigateUp()
-                            },
-                            onFailure = { exception ->
-                                isLoading.value = false
-                                Toast.makeText(
-                                    context,
-                                    "Не успешно: ${exception.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            onSuccess = { handleSuccess() },
+                            onFailure = { exception -> handleFailure(exception.message.toString()) }
                         )
                     }
                 }

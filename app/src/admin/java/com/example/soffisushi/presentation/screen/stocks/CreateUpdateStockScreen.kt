@@ -75,6 +75,18 @@ fun CreateUpdateStockScreen(
                     Toast.makeText(context, "Поля заполнены некоректно", Toast.LENGTH_LONG).show()
                 } else {
                     isLoading.value = true
+
+                    fun handleSuccess() {
+                        isLoading.value = false
+                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+                        navigateUp()
+                    }
+
+                    fun handleFailure(message: String) {
+                        isLoading.value = false
+                        Toast.makeText(context, "Не успешно: $message", Toast.LENGTH_LONG).show()
+                    }
+
                     viewModel.createStock(
                         id = text.value,
                         stock = Stock(
@@ -83,18 +95,11 @@ fun CreateUpdateStockScreen(
                         ),
                         onSuccess = {
                             if (viewModel.selectedStockId.value == text.value) {
-                                isLoading.value = false
-                                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                navigateUp()
+                                handleSuccess()
                             } else {
                                 viewModel.deleteStock(
                                     id = viewModel.selectedStockId.value.toString(),
-                                    onSuccess = {
-                                        isLoading.value = false
-                                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT)
-                                            .show()
-                                        navigateUp()
-                                    },
+                                    onSuccess = { handleSuccess() },
                                     onFailure = {
                                         isLoading.value = false
                                         Toast.makeText(
@@ -107,14 +112,7 @@ fun CreateUpdateStockScreen(
                                 )
                             }
                         },
-                        onFailure = { exception ->
-                            isLoading.value = false
-                            Toast.makeText(
-                                context,
-                                "Не успешно: ${exception.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        onFailure = { exception -> handleFailure(exception.message.toString()) }
                     )
                 }
             },

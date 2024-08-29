@@ -91,6 +91,18 @@ fun CreateUpdateDeliveryScreen(
                     Toast.makeText(context, "Поля заполнены некоректно", Toast.LENGTH_LONG).show()
                 } else {
                     isLoading.value = true
+
+                    fun handleSuccess() {
+                        isLoading.value = false
+                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+                        navigateUp()
+                    }
+
+                    fun handleFailure(message: String) {
+                        isLoading.value = false
+                        Toast.makeText(context, "Не успешно: $message", Toast.LENGTH_LONG).show()
+                    }
+
                     viewModel.createDelivery(
                         id = name.value,
                         delivery = Delivery(
@@ -100,18 +112,11 @@ fun CreateUpdateDeliveryScreen(
                         ),
                         onSuccess = {
                             if (viewModel.selectedDeliveryId.value == name.value) {
-                                isLoading.value = false
-                                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                navigateUp()
+                                handleSuccess()
                             } else {
                                 viewModel.deleteDelivery(
                                     id = viewModel.selectedDeliveryId.value.toString(),
-                                    onSuccess = {
-                                        isLoading.value = false
-                                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT)
-                                            .show()
-                                        navigateUp()
-                                    },
+                                    onSuccess = { handleSuccess() },
                                     onFailure = {
                                         isLoading.value = false
                                         Toast.makeText(
@@ -125,12 +130,7 @@ fun CreateUpdateDeliveryScreen(
                             }
                         },
                         onFailure = { exception ->
-                            isLoading.value = false
-                            Toast.makeText(
-                                context,
-                                "Не успешно: ${exception.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            handleFailure(exception.message.toString())
                         }
                     )
                 }

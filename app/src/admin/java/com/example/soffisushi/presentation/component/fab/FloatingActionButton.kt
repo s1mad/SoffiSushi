@@ -22,22 +22,22 @@ fun FloatingActionButton(viewModel: AdminViewModel, navController: NavController
         }
 
         AdminScreen.Products.route -> Fab {
-            viewModel.setSelectedPointId(null)
+            viewModel.setSelectedProductId(null)
             navController.navigate(AdminScreen.CreateProduct.route)
         }
 
         AdminScreen.Categories.route -> Fab {
-            viewModel.setSelectedPointId(null)
+            viewModel.setSelectedCategoryId(null)
             navController.navigate(AdminScreen.CreateCategory.route)
         }
 
         AdminScreen.Stocks.route -> Fab {
-            viewModel.setSelectedPointId(null)
+            viewModel.setSelectedStockId(null)
             navController.navigate(AdminScreen.CreateStock.route)
         }
 
         AdminScreen.Deliveries.route -> Fab {
-            viewModel.setSelectedPointId(null)
+            viewModel.setSelectedDeliveryId(null)
             navController.navigate(AdminScreen.CreateDelivery.route)
         }
     }

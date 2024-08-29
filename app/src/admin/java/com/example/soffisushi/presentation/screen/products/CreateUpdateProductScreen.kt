@@ -279,6 +279,18 @@ fun CreateUpdateProductScreen(
                     Toast.makeText(context, "Поля заполнены некоректно", Toast.LENGTH_LONG).show()
                 } else {
                     isLoading.value = true
+
+                    fun handleSuccess() {
+                        isLoading.value = false
+                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+                        navigateUp()
+                    }
+
+                    fun handleFailure(message: String) {
+                        isLoading.value = false
+                        Toast.makeText(context, "Не успешно: $message", Toast.LENGTH_LONG).show()
+                    }
+
                     viewModel.createProduct(
                         id = name.value,
                         product = Product(
@@ -298,18 +310,11 @@ fun CreateUpdateProductScreen(
                         ),
                         onSuccess = {
                             if (viewModel.selectedProductId.value == name.value) {
-                                isLoading.value = false
-                                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
-                                navigateUp()
+                                handleSuccess()
                             } else {
                                 viewModel.deleteProduct(
                                     id = viewModel.selectedProductId.value.toString(),
-                                    onSuccess = {
-                                        isLoading.value = false
-                                        Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT)
-                                            .show()
-                                        navigateUp()
-                                    },
+                                    onSuccess = { handleSuccess() },
                                     onFailure = {
                                         isLoading.value = false
                                         Toast.makeText(
@@ -322,14 +327,7 @@ fun CreateUpdateProductScreen(
                                 )
                             }
                         },
-                        onFailure = { exception ->
-                            isLoading.value = false
-                            Toast.makeText(
-                                context,
-                                "Не успешно: ${exception.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        onFailure = { exception -> handleFailure(exception.message.toString()) }
                     )
                 }
             },
